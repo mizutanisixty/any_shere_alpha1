@@ -85,7 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h" />
+    <ClInclude Include="includer_cpp.h" />
     <ClInclude Include="includer_std.h" />
+    <ClInclude Include="network.h" />
     <ClInclude Include="struct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

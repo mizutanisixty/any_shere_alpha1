@@ -11,9 +11,9 @@
 #include <queue>
 #include <deque>
 #include <vector>
-
-using namespace std;
+#include <boost/version.hpp>
 
 #include "define.h"
+#include "struct.h"
 
 #endif
