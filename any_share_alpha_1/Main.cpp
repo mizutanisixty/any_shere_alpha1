@@ -1,17 +1,13 @@
 #include "includer_cpp.h"
-#include <boost/asio.hpp>
-#include <boost/bind.hpp>
 
 using namespace std;
 
-void addCalc(const boost::system::error_code& e, boost::asio::ip::tcp::iostream& s, as::addServer* p){
+void addCalc(const boost::system::error_code& e, std::iostream& s, as::addServer* ser, as::addSession *ses){
 	if(e)
 		return ;
-	int x, y;
-	s >> x >> y;
-	s << x+y << "\r\n";
-	s.close();
-	p->start();
+	string str;
+	s >> str;
+	s << "echo : " << str;
 };
 
 int main(){

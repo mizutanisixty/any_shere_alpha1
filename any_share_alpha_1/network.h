@@ -8,11 +8,18 @@ namespace as{
 	using namespace boost::asio;
 	using ip::tcp;
 	using boost::system::error_code;
+	class addSession;
+	class addServer;
+	typedef void (*handler_t)(const error_code&, std::iostream&, addServer*, addSession*);
 	class addSession{
+		handler_t cHandler;
 		friend class addServer;
 		tcp::socket sok;
+		addServer *as_p;
 		boost::asio::streambuf buf;
-		addSession(io_service &io) : sok(io){
+		addSession(io_service &io, handler_t h, addServer *_as_p) : sok(io){
+			as_p = _as_p;
+			cHandler = h;
 		};
 		void start(){
 			async_read_until(sok, buf, '\n',
@@ -24,9 +31,11 @@ namespace as{
 				return ;
 			}
 			std::iostream s(&buf);
-			int x, y;
+			/*int x, y;
 			s >> x >> y;
-			s << x+y << std::endl;
+			s << x+y << std::endl;*/
+			if(cHandler)
+				cHandler(e, s, as_p, this);
 			async_write(sok, buf, boost::bind(&addSession::write_ok, this, _1, _2));
 		};
 		void write_ok(const error_code &e, size_t siz){
@@ -39,7 +48,6 @@ namespace as{
 	};
 	class addServer{
 	private:
-		typedef void (*handler_t)(const error_code&, tcp::iostream&, addServer*);
 		io_service& io;
 		//tcp::iostream s;
 		tcp::acceptor acc;
@@ -58,7 +66,7 @@ namespace as{
 		void start(){
 			//acceptŠ®—¹ŽŸ‘æthis->handler()‚ðŒÄ‚Ño‚·
 			//acc.async_accept(*s.rdbuf(), boost::bind(&addServer::handler, this, _1));
-			cur_session = new addSession(io);
+			cur_session = new addSession(io, cHandler, this);
 			acc.async_accept(cur_session->sok,
 				boost::bind(&addServer::handler, this, _1));
 		};

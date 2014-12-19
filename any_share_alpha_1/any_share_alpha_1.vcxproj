@@ -80,11 +80,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="chat_main.cpp" />
+    <ClCompile Include="chat.h" />
+    <ClCompile Include="command.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h" />
+    <ClInclude Include="function.h" />
     <ClInclude Include="includer_cpp.h" />
     <ClInclude Include="includer_std.h" />
     <ClInclude Include="network.h" />

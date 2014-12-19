@@ -12,6 +12,8 @@
 #include <deque>
 #include <vector>
 #include <boost/version.hpp>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
 
 #include "define.h"
 #include "struct.h"
