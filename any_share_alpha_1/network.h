@@ -70,8 +70,10 @@ namespace as{
 			acc.async_accept(cur_session->sok,
 				boost::bind(&addServer::handler, this, _1));
 		};
-		addServer(io_service &io, unsigned short port, handler_t handler) : io(io), acc(io, tcp::endpoint(ip::address_v4(), port)){
+		addServer(io_service &io, unsigned short port, handler_t handler, bool start = true) : io(io), acc(io, tcp::endpoint(ip::address_v4(), port)){
 				cHandler = handler;
+				if(start)
+					this->start();
 		};
 		
 	};
