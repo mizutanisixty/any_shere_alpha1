@@ -31,9 +31,6 @@ namespace as{
 				return ;
 			}
 			std::iostream s(&buf);
-			/*int x, y;
-			s >> x >> y;
-			s << x+y << std::endl;*/
 			if(cHandler)
 				cHandler(e, s, as_p, this);
 			async_write(sok, buf, boost::bind(&addSession::write_ok, this, _1, _2));
