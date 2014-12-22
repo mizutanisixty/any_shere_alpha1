@@ -3,5 +3,6 @@
 
 #include "includer_std.h"
 #include "network.h"
+#include "chat.h"
 
 #endif
