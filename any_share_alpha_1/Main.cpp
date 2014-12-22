@@ -31,12 +31,15 @@ int main(){
 		string c[] = {"test", "str", "exit"};
 		for(string str : c){
 			s << str << "\r\n" << std::flush;
+			cout << "/PPPPPPPPPPPPPPPPPPPP\n|(sending)\t> " << str << "\n\\QQQQQQQQQQQQQQQQQQQQ\n";
 			string line;
 			//while(getline(s, line))
 			//	cout << line << endl;
 			string buf;
-			getline(s, buf);
-			cout << buf << endl;
+			for(int i=0; i<2; i++){
+				getline(s, buf);
+				cout << buf << endl;
+			}
 		}
 	}
 	return 0;
