@@ -5,14 +5,12 @@
 #include <boost/bind.hpp>
 
 namespace as{
-	namespace helper{}
 	using namespace boost::asio;
 	using ip::tcp;
 	using boost::system::error_code;
 	class addSession;
 	class addServer;
-	typedef bool (*handler_t)(const error_code&, std::iostream&, addServer*, addSession*);
-	//typedef bool (as::helper::*handler_t_h)(const error_code&, std::iostream&, addServer*, addSession*);
+	typedef void (*handler_t)(const error_code&, std::iostream&, addServer*, addSession*);
 	class addSession{
 		handler_t cHandler;
 		friend class addServer;
@@ -34,8 +32,8 @@ namespace as{
 			}
 			std::iostream s(&buf);
 			if(cHandler)
-				if(cHandler(e, s, as_p, this))
-					async_write(sok, buf, boost::bind(&addSession::write_ok, this, _1, _2));
+				cHandler(e, s, as_p, this);
+			async_write(sok, buf, boost::bind(&addSession::write_ok, this, _1, _2));
 		};
 		void write_ok(const error_code &e, size_t siz){
 			if(e){
@@ -43,10 +41,6 @@ namespace as{
 				return ;
 			}
 			start();
-		};
-	public:
-		~addSession(){
-			sok.close();
 		};
 	};
 	class addServer{
@@ -75,7 +69,8 @@ namespace as{
 		};
 		addServer(io_service &io, unsigned short port, handler_t handler, bool start = true) : io(io), acc(io, tcp::endpoint(ip::address_v4(), port)){
 				cHandler = handler;
-				this->start();
+				if(start)
+					this->start();
 		};
 		
 	};
