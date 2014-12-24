@@ -18,6 +18,19 @@ namespace as{
 			}
 			return true;
 		};
+		static bool otu(const boost::system::error_code& e, std::iostream& s, as::addServer* ser, as::addSession *ses){
+			if(e)
+				return false;
+			std::string str;
+			s >> str;
+			s << str << "‚Æ‚©‚—‚—‚—‰³‚—‚—‚—‚—‚—‚—" << std::endl;
+			std::cout << "receive2: " << str << std::endl;
+			if(str=="exit"){
+				delete ses;
+				return false;
+			}
+			return true;
+		};
 	}
 	class chat{
 	private:
@@ -33,6 +46,7 @@ namespace as{
 			//handler_t ht = &(chat::recvChat);
 			//handler_t ht = helper::recvChat2;
 			as_p = new addServer(io, sendPort, as::helper::recvChat2);
+			new addServer(io, 20202, as::helper::otu);
 			io.run();
 		};
 	};
